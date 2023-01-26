@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTS</title>
+    <link rel="stylesheet" href="D:\MCA_FILES\WTL\HTML\style.css">
+</head>
+<body background="D:\MCA_FILES\WTL\HTML\images\gallerybg.jpg" style="background-repeat: no-repeat; background-attachment: fixed;background-size:cover">
+    <div class="header">
+        <div class="owner">created by ASHIQ S</div>
+        <label><a class="headerlink" href="D:\MCA_FILES\WTL\HTML\index.html" >HOME</a></label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><a class="headerlink" href="D:\MCA_FILES\WTL\HTML\galley.html">GALLERY</a></label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><a class="headerlink" href="D:\MCA_FILES\WTL\HTML\project.html">PROJECTS</a></label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><a class="headerlink" href="D:\MCA_FILES\WTL\HTML\about.html" >ABOUT</a></label><hr >
+    </div>
+    <div>
+        <h2 style="text-align: left;font-family: Georgia, 'Times New Roman', Times, serif;background-color: green; border-radius: 2px;">Projects</h2>
+    </div>
+    <div style="padding-bottom: 50px;">
+        <ul>
+            <li>
+                <H2>Delhi House Price Prediction Using Streamlit.<a target="_blank" href="https://github.com/Ashiqsubair/house-price-prediction-" style="text-decoration: none;">Click here</a> </H2>
+                <h2>Sample Code:</h2>
+                <textarea disabled name="" id="" cols="150" rows="30">
+                    import streamlit as st
+                    import seaborn as sns
+                    import pickle
+                    import base64
+                    
+                    #Creating Background
+                    
+                    main_bg = "background.jfif"
+                    main_bg_ext = "jpg"
+                    
+                    side_bg = "background.jfif"
+                    side_bg_ext = "jpg"
+                    
+                    st.markdown(
+                        f"""
+                        <style>
+                        .reportview-container {{
+                            background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()})
+                        }}
+                       .sidebar .sidebar-content {{
+                            background: url(data:image/{side_bg_ext};base64,{base64.b64encode(open(side_bg, "rb").read()).decode()})
+                        }}
+                        </style>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                    
+                    
+                    #calling model
+                    
+                    pickle_in = open('linear_project.pkl', 'rb')
+                    classifier = pickle.load(pickle_in)
+                    #Creating the UI for the application:
+                    
+                    
+                    st.title('Delhi House Price Prediction')
+                    
+                    Name = st.text_input("Name:")
+                    
+                    area=st.number_input("Area in Sq.ft:")
+                    
+                    bhk = st.selectbox('No: BHK[Bedroom,Hall,Kitchen:',('1', '2', '3','4','5','6','7'))
+                    
+                    bathroom=st.selectbox('Bathroom:',('1', '2', '3','4','5','6','7'))
+                    
+                    furnishing=st.selectbox('0-Furnished,1-Semi Furnished,2-Unfurnished:',('0','1','2'))
+                    
+                    parking=st.selectbox("No: of vehicles can be parked:",('1', '2', '3','4','5','6','7'))
+                    
+                    status=st.selectbox('0-Almost Ready,1-Ready to move',('0','1'))
+                    
+                    transaction=st.selectbox('0-New property,1-Resale',('0','1'))
+                    
+                    type=st.selectbox('0-Apartment,1-Builder floor',('0','1'))
+                    
+                    Phone=st.text_input("Mobile Number:")
+                    
+                    topredict=[area,bhk,bathroom,furnishing,parking,status,
+                    transaction,type]
+                    submit = st.button('Predict')
+                    if submit:
+                        if area<250 :
+                            st.error("Area Should not be less than 250!")
+                        elif Name=="" or Name=="null":
+                            st.error("Name Should not be Blank")
+                        elif len(Phone)<9:
+                            st.error("Enter a valid Phone Number")
+                        else:
+                            prediction = classifier.predict([topredict])
+                            st.write('Estimated Price of Your House is ',prediction)
+                            st.balloons()
+                    #Creating Sidebar
+                    
+                    
+                    st.sidebar.image(image='ICFOSS_logo.png',width=200)
+                    
+                    st.sidebar.subheader('Dataset Used')
+                    st.sidebar.write("Kaggle [link](https://www.kaggle.com/neelkamal692/delhi-house-price-prediction)")
+                    st.sidebar.select_slider(label='Feedback',options=['poor','average','good','excellent'])
+                    
+                    if st.sidebar.button(label="Submit"):
+                        st.sidebar.success("Thank you for your Feedback")
+                        st.sidebar.balloons()
+                    st.sidebar.subheader('About')
+                    st.sidebar.write('Project Of Machine Learning with ICFOSS')</textarea>
+            </li>
+            <li>
+                <h2>Heart Disease Prediction Using CNN. <a target="_blank" href="https://github.com/Ashiqsubair/Heart-Disease-Prediction-using-CNN" style="text-decoration: none;">Click Here</a></h2>
+                <h2>Sample Code:</h2>
+                <textarea disabled name="" id="" cols="150" rows="30">
+                    prediction.aspx.cs
+                    using System;
+                    using System.Collections.Generic;
+                    using System.Linq;
+                    using System.Web;
+                    using System.Web.UI;
+                    using System.Web.UI.WebControls;
+                    using System.Data.SqlClient;
+                    using System.Data;
+                    using System.IO;
+                    using weka.classifiers.functions;
+                    using weka.classifiers.evaluation;
+                    using weka.core;
+                    
+                    
+                    namespace Heart_Disease_Prediction_Portal_Final
+                    {
+                        public partial class prediction : System.Web.UI.Page
+                        {
+                            dbconnect dbc=new dbconnect();
+                            string sq="";
+                            SqlDataReader rd;
+                            SqlDataAdapter ad;
+                    
+                    
+                            protected void Page_Load(object sender, EventArgs e)
+                            {
+                    
+                            }
+                    
+                            protected void bt_loaddata_Click(object sender, EventArgs e)
+                            {
+                                sq="select * from datatb";
+                                DataSet ds = dbc.fillfn(sq);
+                                grid_testdata.DataSource = ds.Tables["t1"];
+                                grid_testdata.DataBind();
+                    
+                    
+                            }
+                    
+                            protected void bt__Click(object sender, EventArgs e)
+                            {
+                    
+                            }
+                    
+                            protected void bt_testdata_Click(object sender, EventArgs e)
+                            {
+                                
+                                
+                                DataTable dt = new DataTable();
+                    
+                    
+                    
+                    
+                                sq = "select * from clinicalrecord ";
+                                DataSet ds = dbc.fillfn(sq);
+                    
+                                       
+                                grid_loaddata.DataSource = ds.Tables[0];
+                                grid_loaddata.DataBind();
+                    
+                                StreamWriter sw = new StreamWriter(@"D:\fmnc project 2021 - Copy\fmnc project\Heart Disease Prediction Portal Final\Heart Disease Prediction Portal Final\Dataset\testset.csv", false);
+                    
+                                string line = "";
+                                sw.WriteLine("age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,target");
+                           
+                                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                                {
+                    
+                                     line="";
+                                    for ( int j=0;j< ds.Tables[0].Columns.Count -1;j++)
+                                    {
+                                        if (j < 2) continue;
+                                        if (line == "")
+                                        {
+                                            line = ds.Tables[0].Rows[i].ItemArray[j].ToString();
+                                        
+                    
+                                        }
+                                        else
+                                        {
+                                            line = line + "," + ds.Tables[0].Rows[i].ItemArray[j].ToString();
+                                        }
+                                   }
+                                    sw.WriteLine(line+",N");
+                    
+                                }
+                                sw.WriteLine(line + ",Y");
+                                sw.Close();
+                    
+                            }
+                    
+                            protected void bt_convtoarff_Click(object sender, EventArgs e)
+                            {
+                    
+                                try
+                                {
+                    
+                                    string fname = @"D:\fmnc project 2021 - Copy\fmnc project\Heart Disease Prediction Portal Final\Heart Disease Prediction Portal Final\Dataset\heart.csv";
+                                    File.Delete(@"D:\fmnc project 2021 - Copy\training.arff");
+                                    weka.core.converters.CSVLoader loader = new weka.core.converters.CSVLoader();
+                                    loader.setSource(new java.io.File(fname));
+                                    weka.core.Instances inst2 = loader.getDataSet();
+                                    weka.core.converters.ArffSaver saver = new weka.core.converters.ArffSaver();
+                                    saver.setInstances(inst2);
+                                    saver.setFile(new java.io.File(@"D:\fmnc project 2021 - Copy\training.arff"));
+                                    saver.writeBatch();
+                                    Response.Write("<html><script>alert('File Converted..');</script></html>");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Response.Write("<html><script>alert('" + ex.Message.ToString() + "');</script></html>");
+                                }
+                    
+                    
+                    
+                    
+                                try
+                                {
+                    
+                                    string fname = @"D:\fmnc project 2021 - Copy\fmnc project\Heart Disease Prediction Portal Final\Heart Disease Prediction Portal Final\Dataset\testset.csv";
+                                    File.Delete(@"D:\fmnc project 2021 - Copy\testset.arff");
+                                    weka.core.converters.CSVLoader loader = new weka.core.converters.CSVLoader();
+                                    loader.setSource(new java.io.File(fname));
+                                    weka.core.Instances inst2 = loader.getDataSet();
+                                    weka.core.converters.ArffSaver saver = new weka.core.converters.ArffSaver();
+                                    saver.setInstances(inst2);
+                                    saver.setFile(new java.io.File(@"D:\fmnc project 2021 - Copy\testset.arff"));
+                                    saver.writeBatch();
+                                    Response.Write("<html><script>alert('File Converted..');</script></html>");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Response.Write("<html><script>alert('" + ex.Message.ToString() + "');</script></html>");
+                                }
+                            }
+                    
+                            protected void bt_prediction_Click(object sender, EventArgs e)
+                            {
+                                DateTime dt1 = DateTime.Now;
+                    
+                            sq = "delete from prediction_result";
+                            dbc.execQuery(sq);
+                            weka.core.Instances data = new weka.core.Instances(new java.io.FileReader(@"D:\fmnc project 2021 - Copy\training.arff"));
+                            data.setClassIndex(data.numAttributes() - 1);
+                            weka.core.Instances data_test = new weka.core.Instances(new java.io.FileReader(@"D:\fmnc project 2021 - Copy\testset.arff"));
+                            data_test.setClassIndex(data_test.numAttributes() - 1);
+                            int ic = data_test.numInstances();
+                            weka.classifiers.lazy.IBk ibk = new weka.classifiers.lazy.IBk();
+                            ibk.buildClassifier(data);
+                            sq = "delete from knn_result";
+                            dbc.execQuery(sq);
+                            
+                            weka.classifiers.Evaluation eval = new weka.classifiers.Evaluation(data);
+                            weka.classifiers.Classifier clsCopy = weka.classifiers.Classifier.makeCopy(ibk);
+                            clsCopy.buildClassifier(data);
+                            java.util.Random r = new java.util.Random(1);
+                            eval.crossValidateModel(ibk, data_test, 2, r);
+                            eval.evaluateModel(clsCopy, data_test);
+                            int i = 0;
+                            foreach (object o in eval.predictions().toArray())
+                            {
+                                if (i >= ic) break;
+                                NominalPrediction prediction = o as NominalPrediction;
+                                double predicted = prediction.predicted();
+                                //   int nominal = rnd.Next(0, 5);
+                                int p = (int)predicted;
+                    
+                                if (prediction != null)
+                                {
+                                    int loopvt = i;
+                                    string a = data.classAttribute().value((int)data.instance(i).classValue()).ToString();
+                    
+                                    sq = "insert into knn_result values(" + loopvt + ",'" + a.ToString() + "','" + predicted.ToString() + "')";
+                                    dbc.execQuery(sq);
+                                    i++;
+                                }
+                            }
+                            Session["cn_p"] = eval.precision(0);
+                            Session["cn_f"] = eval.fMeasure(0);
+                            Session["cn_r"] = eval.recall(0);
+                    
+                            DateTime dt2 = DateTime.Now;
+                            TimeSpan t = dt2 - dt1;
+                            int sec1 = t.Milliseconds;
+                            sq = "select * from knn_result";
+                          DataSet   ds = new DataSet();
+                            ds = dbc.fillfn(sq);
+                            grid_predict.DataSource = ds.Tables["t1"];
+                            grid_predict.DataBind();
+                            try
+                            {
+                                sq = "insert into prediction_result values('knn'," + Session["cn_p"].ToString() + "," + Session["cn_f"].ToString() + "," + Session["cn_r"].ToString() + ","+sec1.ToString()+")";
+                                dbc.execQuery(sq);
+                              
+                            }
+                            catch (Exception ex)
+                            {
+                    
+                                Response.Write("<html><script>alert('Graph can not be generated due to Insufficient Data');</script></html>");
+                    
+                            }
+                       
+                    
+                    
+                            }
+                    
+                            protected void bt_predictionCNN_Click(object sender, EventArgs e)
+                            {
+                                cnn();
+                            }
+                    
+                    
+                            void cnn()
+                            {
+                                DateTime dt1 = DateTime.Now;
+                    
+                                int i = 0;
+                                sq = "select distinct target from datatb";
+                                DataSet ds = new DataSet();
+                    
+                                ds = dbc.fillfn(sq);
+                                int ct = ds.Tables["t1"].Rows.Count;
+                    
+                                string[] dis = new string[ct];
+                                for (i = 0; i < ds.Tables["t1"].Rows.Count; i++)
+                                {
+                                    dis[i] = ds.Tables["t1"].Rows[i].ItemArray[0].ToString();
+                                }
+                                weka.core.Instances data = new weka.core.Instances(new java.io.FileReader(@"D:\fmnc project 2021 - Copy\training.arff"));
+                                data.setClassIndex(data.numAttributes() - 1);
+                                weka.core.Instances data_test = new weka.core.Instances(new java.io.FileReader(@"D:\fmnc project 2021 - Copy\testset.arff"));
+                                data_test.setClassIndex(data_test.numAttributes() - 1);
+                                int ic = data_test.numInstances();
+                                MultilayerPerceptron cnn = new weka.classifiers.functions.MultilayerPerceptron();
+                                cnn.setOptions(Utils.splitOptions("-L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H 4"));
+                    
+                    
+                                cnn.buildClassifier(data);
+                                // meta-classifier
+                                // train and make predictions
+                                sq = "delete from knn_result";
+                                dbc.execQuery(sq);
+                    
+                                weka.classifiers.Evaluation eval = new weka.classifiers.Evaluation(data);
+                                weka.classifiers.Classifier clsCopy = weka.classifiers.Classifier.makeCopy(cnn);
+                                clsCopy.buildClassifier(data);
+                                java.util.Random r = new java.util.Random(1);
+                                eval.crossValidateModel(cnn, data_test,2, r);
+                                eval.evaluateModel(clsCopy, data_test);
+                                 i = 0;
+                                foreach (object o in eval.predictions().toArray())
+                                {
+                                    if (i >= ic) break;
+                                    NominalPrediction prediction = o as NominalPrediction;
+                                    double predicted = prediction.predicted();
+                                    //   int nominal = rnd.Next(0, 5);
+                                    int p = (int)predicted;
+                    
+                                    if (prediction != null)
+                                    {
+                                        int loopvt = i;
+                                        string a = data.classAttribute().value((int)data.instance(i).classValue()).ToString();
+                    
+                                        sq = "insert into knn_result values(" + loopvt + ",'" + a.ToString() + "','" + predicted.ToString() + "')";
+                                        dbc.execQuery(sq);
+                                        i++;
+                                    }
+                                }
+                                Session["kn_p"] = eval.precision(0);
+                                Session["kn_f"] = eval.fMeasure(0); //*1.4
+                                Session["kn_r"] = eval.recall(0);
+                    
+                                DateTime dt2 = DateTime.Now;
+                    
+                                TimeSpan t = dt2 - dt1;
+                                int sec1 = t.Milliseconds;
+                                sq = "select * from knn_result";
+                                 ds = new DataSet();
+                                ds = dbc.fillfn(sq);
+                                grid_predict.DataSource = ds.Tables["t1"];
+                                grid_predict.DataBind();
+                                try
+                                {
+                                    sq = "insert into prediction_result values('cnn'," + Session["kn_p"].ToString() + "," + Session["kn_f"].ToString() + "," + Session["kn_r"].ToString() + ","+sec1.ToString() +")";
+                                    dbc.execQuery(sq);
+                    
+                                }
+                                catch (Exception ex)
+                                {
+                    
+                                    Response.Write("<html><script>alert('Graph can not be generated due to Insufficient Data');</script></html>");
+                    
+                                }
+                       
+                    
+                            }
+                    
+                            protected void LinkButton1_Click(object sender, EventArgs e)
+                            {
+                                Response.Redirect("Default.aspx");
+                                Session.Clear();
+                            }
+                    
+                            protected void bt_back_Click(object sender, EventArgs e)
+                            {
+                                Response.Redirect("Admin.aspx");
+                            }
+                    
+                            protected void grid_predict_SelectedIndexChanged(object sender, EventArgs e)
+                            {
+                             
+                            }
+                        }
+                    }</textarea>
+            </li>
+            <li>
+               <h2>Music Player Using C Programming. <a target="_blank" href="https://github.com/Ashiqsubair/Music-Player-Using-C-Programming" style="text-decoration: none;">Click Here</a></h2>
+               <h2>Sample Code:</h2>
+                <textarea disabled  name="" id="" cols="150" rows="30">
+                    #include<stdio.h>
+                    #include<stdlib.h>
+                    #include<string.h>
+                    #include<conio.h>
+                    struct node{
+                        char data[40];
+                        struct node *next;
+                        struct node *prev;
+                    };
+                    struct node *head=NULL;
+                    struct node *current_node=NULL;
+                    char temp[40];
+                    int main(){
+                        int ch;
+                        while(ch!=9){
+                            
+                            printf("\t====================================================================================\n");
+                            printf("\t\t\t\t--------Music Player!!!--------\n");
+                            printf("\t====================================================================================\n");
+                            printf("\n\t1.Add Music\t\t\t");
+                            printf("2.Remove Music\t\t\t");
+                            printf("3.Show Playlist\t\t\t\n");
+                            printf("\t====================================================================================\n");
+                            printf("\t4.Play Next Music\t\t");
+                            printf("5.Play Previous Music\t\t");
+                            printf("6.Play First File\n");
+                            printf("\t====================================================================================\n");
+                            printf("\t7.Play Last File");
+                            printf("\t\t8.Play Specific File");
+                            printf("\t\t9.Exit\n");
+                            printf("\t====================================================================================\n");
+                            printf("\t10.Change color theme.");
+                            printf("\n\tEnter your Choice\t:");
+                            scanf("%d",&ch);
+                            switch(ch){
+                                case 1:{
+                                
+                                    insert_();
+                                    break;
+                                }
+                                case 2:{
+                                
+                                    delete_element();
+                                    break;
+                                }
+                                case 3:{
+                                
+                                    show();
+                                    break;
+                                }
+                                case 4:{
+                                
+                                    next_node();
+                                    break;
+                                }
+                                case 5:{
+                                
+                                    previous_node();
+                                    break;
+                                }
+                                case 6:{
+                                
+                                    first_node();
+                                    break;
+                                }
+                                case 7:{
+                                    
+                                    last_node();
+                                    break;
+                                }
+                                case 8:{
+                                    specific_data();
+                                    break;
+                                }
+                                case 9:{
+                                    printf("\tPlayer Closed!!!");
+                                    exit(0);
+                            
+                                }
+                                case 10:{
+                                    change_color();
+                                    break;
+                                }
+                                default:{
+                                    printf("\tWrong Choice!! Enter the Choice from the Given OPTION\n");
+                                    break;
+                                }
+                            }
+                        }
+                    return 0;	
+                    }
+                    int insert_(){
+                        getchar();
+                        printf("\tEnter the music name: ");
+                        gets(temp);
+                        struct node *new_node=(struct node*)malloc(sizeof(struct node));
+                        strcpy(new_node->data,temp);
+                        if(head==NULL){
+                            new_node->next=new_node->prev=new_node;
+                            current_node=head=new_node;
+                            printf("Music Added!!\n");
+                        }
+                        struct node *last=head->prev;
+                        new_node->prev=last;
+                        last->next=new_node;
+                        new_node->next=head;
+                        head->prev=new_node;
+                        system("cls");
+                        printf("\t\tMusic Added!!\n");
+                    return 0;
+                    }
+                    int delete_element(){
+                        if(head==NULL){
+                            system("cls");
+                            printf("\tNo Music To Delete");
+                        }
+                        else{
+                            getchar();
+                            printf("\tEnter the music name: ");
+                            gets(temp);
+                            struct node *ptr=head;
+                            do{
+                                if(ptr->next==ptr&&strcmp(ptr->data,temp)==0){
+                                    system("cls");
+                                    printf("\tFile deleted ! Playlist is empty!\n");
+                                    head=NULL;
+                                    free(ptr);
+                                    return;
+                                }
+                                else if(strcmp(ptr->data,temp)==0){
+                                    struct node *prev=ptr->prev;
+                                    struct node *next=ptr->next;
+                                    prev->next=next;
+                                    next->prev=prev;
+                                    //head=next;
+                                    free(ptr);
+                                    system("cls");
+                                    printf("\tMusic Deleted\n");
+                                    return;
+                                }
+                                ptr=ptr->next;
+                            }while(ptr!=head);
+                            system("cls");
+                            printf("\tNo music file named %s\n",temp);
+                        }
+                    return 0;
+                    }
+                    int show(){
+                        if(head==NULL){
+                            system("cls");
+                            printf("\tPlaylist is empty!!\n");
+                        }
+                        else{
+                            struct node *ptr=head;
+                            int i=0;
+                            system("cls");
+                            printf("\n\t-----Available music-----\n");
+                            do{
+                                printf("\t%d. %s.\n",++i,ptr->data);
+                                ptr=ptr->next;
+                            }while(ptr!=head);
+                        }
+                    return 0;
+                    }
+                    int next_node(){
+                        if(current_node==NULL){
+                            system("cls");
+                            printf("\tNo song in playlist!\n");
+                            
+                        }
+                        else{
+                            current_node=current_node->next;
+                            system("cls");
+                            printf("\tPlaying Music :%s\n",current_node->data);
+                        }
+                    return 0;
+                    }
+                    int previous_node(){
+                        if(current_node==NULL){
+                            system("cls");
+                            printf("\tNo song in playlist!\n");
+                            
+                        }
+                        else{
+                            current_node=current_node->prev;
+                            system("cls");
+                            printf("\tPlaying Music :%s\n",current_node->data);
+                        }
+                    return 0;
+                    }
+                    int last_node(){
+                        if(current_node==NULL){
+                            system("cls");
+                            printf("\tNo song in playlist!\n");
+                            
+                        }
+                        else{
+                            current_node=head->prev;
+                            system("cls");
+                            printf("\tPlaying Music :%s\n",current_node->data);
+                        }
+                    return 0;
+                    }
+                    int first_node(){
+                        if(current_node==NULL){
+                            system("cls");
+                            printf("\tNo song in playlist!\n");
+                            
+                        }
+                        else{
+                            current_node=head;
+                            system("cls");
+                            printf("\tPlaying Music :%s\n",current_node->data);
+                        }
+                    return 0;
+                    }
+                    int specific_data(){
+                        if(head==NULL){
+                            system("cls");
+                            printf("\tNo Music in Playlist!!\n");
+                        }
+                        else{
+                            int flag=0;
+                            char temp[10];
+                            getchar();
+                            printf("\tEnter the music name: ");
+                            gets(temp);
+                            struct node *ptr=head;
+                            do{
+                                if(strcmp(ptr->data,temp)==0){
+                                    system("cls");
+                                    printf("\t playing :%s\n",temp);
+                                    flag=1;
+                                    return;
+                                }
+                                ptr=ptr->next;
+                            }while(ptr!=head);
+                            system("cls");
+                            printf("\t%s\n",flag==0?"There is no music ":"");
+                    return 0;
+                    }
+                    }
+                    int change_color(){
+                        int color;
+                        printf("\tEnter the color theme for your music player\n");
+                        printf("\t1.Green \t2.Aqua\t\t3.Red\n\t4.Purple\t5.Yellow\t6.White\n");
+                        scanf("%d",&color);
+                        switch(color){
+                            case 1:{
+                                system("COLOR 0A");
+                                system("cls");
+                                break;
+                            }
+                            case 2:{
+                                system("COLOR 0B");
+                                system("cls");
+                                break;
+                            }
+                            case 3:{
+                                system("COLOR 0C");
+                                system("cls");
+                                break;
+                            }
+                            case 4:{
+                                system("COLOR 0D");
+                                system("cls");
+                                break;
+                            }
+                            case 5:{
+                                system("COLOR 0E");
+                                system("cls");
+                                break;
+                            }
+                            case 6:{
+                                system("COLOR 0F");
+                                system("cls");
+                                break;
+                            }
+                        }
+                    }
+                    
+                    </textarea>
+            </li>
+            <li><h2>
+                Student Study Portal using Python Django Framework <a target="_blank" href="https://github.com/Ashiqsubair/Student-Study-Portal" style="text-decoration: none;">Click Here</a>
+                <h2>Sample Code:</h2>
+                <textarea disabled name="" id="" cols="150" rows="30">
+                    from django.contrib import messages
+                    from django.shortcuts import render, redirect
+                    from .forms import *
+                    from django.views import generic
+                    from youtubesearchpython import VideosSearch
+                    import requests
+                    import wikipedia
+                    from django.contrib.auth.decorators import login_required
+                    
+                    # Create your views here.
+                    def home(request):
+                        return render(request,'dashboard/home.html')
+                    @login_required
+                    def notes(request):
+                        if request.method=="POST":
+                            form=NotesForm(request.POST)
+                            if form.is_valid():
+                                notes=Notes(user=request.user,title=request.POST['title'],description=request.POST['description'])
+                                notes.save()
+                            messages.success(request,f"Notes added from {request.user.username} Successfully!")
+                        else:
+                            form=NotesForm()
+                        notes=Notes.objects.filter(user=request.user)
+                        context={'notes':notes,'form':form}
+                        return render(request,'dashboard/notes.html',context)
+                    @login_required
+                    def delete_note(request,pk=None):
+                        Notes.objects.get(id=pk).delete()
+                        return redirect("notes")
+                    
+                    class NotesDetailView(generic.DetailView):
+                        model=Notes
+                    @login_required
+                    def homework(request):
+                        if request.method=="POST":
+                            form=HomeworkForm(request.POST)
+                            if form.is_valid():
+                                try:
+                                    finished= request.POST['is_finished']
+                                    if finished=="on":
+                                        finished=True
+                                    else:
+                                        finished=False
+                                except:
+                                    finished=False
+                                homeworks=Homework(user=request.user,
+                                                   subject=request.POST['subject'],
+                                                   title=request.POST['title'],
+                                                   description=request.POST['description'],
+                                                   due=request.POST['due'],
+                                                   is_finished=finished)
+                                homeworks.save()
+                                messages.success(request,f'Homework Added From {request.user.username}!!')
+                        else:
+                                form=HomeworkForm()
+                        homework=Homework.objects.filter(user=request.user)
+                        if len(homework)== 0:
+                            homework_done= True
+                        else:
+                            homework_done = False
+                        context={'homeworks':homework,'homework_done':homework_done,'form':form,}
+                        return render(request,'dashboard/homework.html',context)
+                    @login_required
+                    def update_homework(request,pk=None):
+                        homework=Homework.objects.get(id=pk)
+                        if homework.is_finished==True:
+                            homework.is_finished=False
+                        else:
+                            homework.is_finished=True
+                        homework.save()
+                        return redirect('homework')
+                    @login_required
+                    def delete_homework(request,pk=None):
+                        Homework.objects.get(id=pk).delete()
+                        return redirect("homework")
+                    
+                    
+                    def youtube(request):
+                        if request.method=="POST":
+                            form =DashboardForm(request.POST)
+                            text=request.POST['text']
+                            video=VideosSearch(text,limit=10)
+                            result_list=[]
+                            for i in video.result()['result']:
+                                result_dict={
+                                    'input':text,
+                                    'title':i['title'],
+                                    'duration':i['duration'],
+                                    'thumbnail':i['thumbnails'][0]['url'],
+                                    'channel':i['channel']['name'],
+                                    'link':i['link'],
+                                    'views':i['viewCount']['short'],
+                                    'published':i['publishedTime']
+                                }
+                                desc=""
+                                if i['descriptionSnippet']:
+                                    for j in i['descriptionSnippet']:
+                                        desc +=j['text']
+                    
+                                result_dict['description']=desc
+                                result_list.append(result_dict)
+                                context={'form':form,
+                                         'results':result_list
+                                         }
+                            return render(request,'dashboard/youtube.html',context)
+                        else:
+                    
+                            form=DashboardForm()
+                        context={'form':form}
+                        return render(request,"dashboard/youtube.html",context)
+                    @login_required
+                    def todo(request):
+                        if request.method=="POST":
+                            form = TodoForm(request.POST)
+                            if form.is_valid():
+                                try:
+                                    finished = request.POST["is_finished"]
+                                    if finished=="on":
+                                        finished=True
+                                    else:
+                                        finished=False
+                                except:
+                                    finished=False
+                                todos=Todo(
+                                    user=request.user,
+                                    title=request.POST['title'],
+                                    is_finished=finished
+                    
+                                )
+                                todos.save()
+                                messages.success(request,f"Todo Added from {request.user.username}!!")
+                        else:
+                            form=TodoForm()
+                        todo= Todo.objects.filter(user=request.user)
+                        if len(todo)==0:
+                            todos_done=True
+                        else:
+                            todos_done=False
+                        context={
+                            'todos':todo,
+                            'form':form,
+                            'todos_done':todos_done,
+                        }
+                        return render(request,'dashboard/todo.html',context)
+                    @login_required
+                    def update_todo(request,pk=None):
+                        todo = Todo.objects.get(id=pk)
+                        if todo.is_finished  ==  True:
+                            todo.is_finished  =  False
+                        else:
+                            todo.is_finished = True
+                        todo.save()
+                        return redirect('todo')
+                    @login_required
+                    def delete_todo(request,pk=None):
+                        Todo.objects.get(id=pk).delete()
+                        return redirect('todo')
+                    
+                    
+                    def book(request):
+                        if request.method=="POST":
+                            form =DashboardForm(request.POST)
+                            text=request.POST['text']
+                            url="https://www.googleapis.com/books/v1/volumes?q="+text
+                            r=requests.get(url)
+                            answer=r.json()
+                            result_list=[]
+                            for i in range(10):
+                                result_dict={
+                    
+                                    'title':answer['items'][i]['volumeInfo']['title'],
+                                    'subtitle': answer['items'][i]['volumeInfo'].get('subtitle'),
+                                    'description': answer['items'][i]['volumeInfo'].get('description'),
+                                    'count': answer['items'][i]['volumeInfo'].get('pageCount'),
+                                    'categories': answer['items'][i]['volumeInfo'].get('categories'),
+                                    'rating': answer['items'][i]['volumeInfo'].get('pageRating'),
+                                    'thumbnail': answer['items'][i]['volumeInfo'].get('imageLinks').get('thumbnail'),
+                                    'preview': answer['items'][i]['volumeInfo'].get('previewLink')
+                                }
+                    
+                                result_list.append(result_dict)
+                                context={'form':form,
+                                         'results':result_list
+                                         }
+                            return render(request,'dashboard/books.html',context)
+                        else:
+                    
+                            form=DashboardForm()
+                        context={'form':form}
+                        return render(request,"dashboard/books.html",context)
+                    
+                    
+                    def dictionary(request):
+                        if request.method=="POST":
+                            form =DashboardForm(request.POST)
+                            text=request.POST['text']
+                            url="https://api.dictionaryapi.dev/api/v2/entries/en_US/"+text
+                            r=requests.get(url)
+                            answer=r.json()
+                            try:
+                                phonetics=answer[0]['phonetics'][0]['text']
+                                audio=answer[0]['phonetics'][0]['audio']
+                                definition=answer[0]['meanings'][0]['definitions'][0]['definition']
+                                example=answer[0]['meanings'][0]['definitions'][0]['example']
+                                synonyms=answer[0]['meanings'][0]['definitions'][0]['synonyms']
+                                context={
+                                    'form':form,
+                                    'input':text,
+                                    'phonetics':phonetics,
+                                    'audio':audio,
+                                    'definition':definition,
+                                    'example':example,
+                                    'synonyms':synonyms
+                                }
+                            except:
+                                context={
+                                    'form':form,
+                                    'input':''
+                                }
+                            return render(request,'dashboard/dictionary.html',context)
+                        else:
+                            form= DashboardForm()
+                            context={'form':form}
+                        return render(request,'dashboard/dictionary.html',context)
+                    
+                    
+                    def wiki(request):
+                        if request.method=="POST":
+                            text=request.POST['text']
+                            form=DashboardForm(request.POST)
+                            search=wikipedia.page(text)
+                            context={
+                                'form':form,
+                                'title':search.title,
+                                'link':search.url,
+                                'details':search.summary
+                            }
+                            return render(request,'dashboard/wiki.html',context)
+                        else:
+                            form=DashboardForm()
+                            context={'form':form}
+                        return render(request,'dashboard/wiki.html',context)
+                    
+                    
+                    def conversion(request):
+                        if request.method=="POST":
+                            form=ConversionForm(request.POST)
+                            if request.POST['measurement']=='length':
+                                measurement_form=ConversionLengthForm()
+                                context={
+                                    'form':form,
+                                    'm_form':measurement_form,
+                                    'input':True
+                                }
+                                if 'input' in request.POST:
+                                    first=request.POST['measure1']
+                                    second= request.POST['measure2']
+                                    input=request.POST['input']
+                                    answer=''
+                                    if input and int(input)>=0:
+                                        if first =='yard' and second == 'foot':
+                                            answer=f'{input} yard={int (input)*3} foot'
+                                        if first =='foot' and second == 'yard':
+                                            answer=f'{input} foot={int (input)/3} yard'
+                                    context={
+                                        'form':form,
+                                        'm_form':measurement_form,
+                                        'input':True,
+                                        'answer':answer
+                                    }
+                            if request.POST['measurement'] == 'mass':
+                                measurement_form = ConversionMassForm()
+                                context = {
+                                    'form': form,
+                                    'm_form': measurement_form,
+                                    'input': True
+                                }
+                                if 'input' in request.POST:
+                                    first = request.POST['measure1']
+                                    second = request.POST['measure2']
+                                    input = request.POST['input']
+                                    answer = ''
+                                    if input and int(input) >= 0:
+                                        if first == 'pound' and second == 'kilogram':
+                                            answer = f'{input} yard={int(input) * 0.453592} kilogram'
+                                        if first == 'kilogram' and second == 'pound':
+                                            answer = f'{input} kilogram={int(input)*2.20462} pound'
+                                    context = {
+                                        'form': form,
+                                        'm_form': measurement_form,
+                                        'input': True,
+                                        'answer': answer
+                                    }
+                        else:
+                            form=ConversionForm()
+                            context={
+                            'form':form,
+                            'input':False
+                            }
+                        return render(request,"dashboard/conversion.html",context)
+                    
+                    def register(request):
+                        if request.method=="POST":
+                            form=UserRegistrationForm(request.POST)
+                            if form.is_valid():
+                                form.save()
+                                username=form.cleaned_data.get('username')
+                                messages.success(request,f"Account Created for {username}!!")
+                                return redirect("login")
+                    
+                    
+                        else:
+                    
+                            form=UserRegistrationForm()
+                        context={'form':form}
+                        return render(request,"dashboard/register.html",context)
+                    
+                    
+                    @login_required
+                    def profile(request):
+                        homeworks=Homework.objects.filter(is_finished=False,user=request.user)
+                        todos = Todo.objects.filter(is_finished=False, user=request.user)
+                        if len(homeworks)==0:
+                            homework_done=True
+                        else:
+                            homework_done=False
+                    
+                        if len(todos)==0:
+                            todos_done=True
+                        else:
+                            todos_done=False
+                        context={'homeworks':homeworks,
+                                 'todos':todos,
+                                 'homework_done':homework_done,
+                                 'todos_done':todos_done
+                                 }
+                        return render(request,'dashboard/profile.html',context)</textarea>
+            </h2></li>
+        </ul>
+    </div>
+    <div class="footer"><hr><center>
+        <a href="https://www.facebook.com/ashiksubair.s" target="_blank"><img src="D:\MCA_FILES\WTL\HTML\images\facebook.png" height="45px" width="65px" alt="facebook"></a>
+        <a href="https://www.instagram.com/_a.s.h.i.q" target="_blank"><img src="D:\MCA_FILES\WTL\HTML\images\instagram.png" height="50px" width="50px" alt="facebook"></a>
+        <a href="https://www.linkedin.com/in/ashiq-s-90b277141/" target="_blank"><img src="D:\MCA_FILES\WTL\HTML\images\linkedin.png" height="50px" width="60px" alt="facebook"></a>
+        <a href="https://github.com/Ashiqsubair" target="_blank"><img src="D:\MCA_FILES\WTL\HTML\images\github.png" height="50px" width="60px" alt="facebook"></a>
+    </center></div>
+</body>
+</html>
